@@ -1,0 +1,43 @@
+[gd_scene load_steps=2 format=3 uid="uid://cp4bfxvlst88j"]
+
+[ext_resource type="Texture2D" uid="uid://5bcceiishpo3" path="res://Assets/Sprites/Player/Gunhead-Sheet.png" id="1_f47d7"]
+
+[node name="PistolPete" type="CharacterBody2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+
+[node name="RigidBody2D" type="RigidBody2D" parent="."]
+
+[node name="Body" type="Sprite2D" parent="."]
+z_index = 1
+texture = ExtResource("1_f47d7")
+region_enabled = true
+region_rect = Rect2(0, 192, 64, 64)
+
+[node name="Head" type="Sprite2D" parent="Body"]
+z_index = 2
+texture = ExtResource("1_f47d7")
+region_enabled = true
+region_rect = Rect2(0, 320, 64, 64)
+
+[node name="ArmL" type="Sprite2D" parent="Body"]
+texture = ExtResource("1_f47d7")
+region_enabled = true
+region_rect = Rect2(0, 256, 64, 64)
+
+[node name="ArmR" type="Sprite2D" parent="Body"]
+z_index = -1
+texture = ExtResource("1_f47d7")
+region_enabled = true
+region_rect = Rect2(0, 0, 64, 64)
+
+[node name="LegL" type="Sprite2D" parent="Body"]
+z_index = 1
+texture = ExtResource("1_f47d7")
+region_enabled = true
+region_rect = Rect2(0, 128, 64, 64)
+
+[node name="LegR" type="Sprite2D" parent="Body"]
+texture = ExtResource("1_f47d7")
+region_enabled = true
+region_rect = Rect2(0, 64, 64, 64)
