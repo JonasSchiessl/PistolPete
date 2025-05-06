@@ -2,28 +2,22 @@ extends CharacterBody2D
 
 # References to body parts
 @onready var torso = $Body
-@onready var leftArm = $Body/ArmL
-@onready var rightArm = $Body/ArmR
-@onready var leftleg = $Body/LegL
-@onready var rightLeg = $Body/LegR
+@onready var left_arm = $Body/ArmL
+@onready var right_arm = $Body/ArmR
+@onready var left_leg = $Body/LegL
+@onready var right_leg = $Body/LegR
 @onready var head = $Head
 @onready var gun_sprite = $Head/HeadSprite
 @onready var crosshair = $Crosshair
 
-# Store initial rotations
-var initial_rotations = {}
+# Animation system
+var animator = CharacterAnimator.new()
 
 # Movement variables
 @export var character_scale_factor: float = 1.0
 @export var move_speed: float = 200.0
 @export var jump_force: float = 400.0
 @export var gravity: float = 800.0
-
-# Animation variables
-var animation_time: float = 0.0
-var walk_speed: float = 5.0
-var leg_swing_amount: float = 0.3
-var arm_swing_amount: float = 0.2
 
 # Input variables
 var x_input: float = 0.0
@@ -34,14 +28,16 @@ func _ready():
 	# Apply uniform scale to avoid squishing
 	scale = Vector2(character_scale_factor, character_scale_factor)
 	
-	# Store initial rotations of all parts
-	initial_rotations = {
-		"torso": torso.rotation,
-		"leftArm": leftArm.rotation,
-		"rightArm": rightArm.rotation,
-		"leftleg": leftleg.rotation,
-		"rightLeg": rightLeg.rotation
+	# Initialize animator with body parts
+	var body_parts = {
+		"torso": torso,
+		"left_arm": left_arm,
+		"right_arm": right_arm,
+		"left_leg": left_leg,
+		"right_leg": right_leg,
+		"head": head
 	}
+	animator.initialize(body_parts)
 	
 	# Hide system cursor if using custom crosshair
 	if crosshair:
@@ -51,8 +47,8 @@ func _physics_process(delta):
 	# Apply gravity
 	velocity.y += gravity * delta
 	
-	# Increment animation timer
-	animation_time += delta
+	# Update animator's time
+	animator.update(delta)
 	
 	# Check for jump input every frame
 	_handle_jump()
@@ -62,7 +58,7 @@ func _physics_process(delta):
 
 func _player_input():
 	# Get horizontal input
-	x_input = Input.get_axis("ui_left", "ui_right")
+	x_input = Input.get_axis("moveLeft", "moveRight")
 	
 	# Update body facing direction based on input - immediate response
 	if x_input < 0:
@@ -115,30 +111,13 @@ func _idle():
 	# Reset horizontal velocity
 	velocity.x = 0
 	
-	# Subtle breathing animation
-	var breath = sin(animation_time * 2) * 0.05
-	
-	# Apply rotations with smooth interpolation for idle pose
-	# Use initial rotations as the base
-	torso.rotation = lerp(torso.rotation, initial_rotations["torso"], 0.2)
-	leftArm.rotation = lerp(leftArm.rotation, initial_rotations["leftArm"] - 0.1 + breath, 0.2)
-	rightArm.rotation = lerp(rightArm.rotation, initial_rotations["rightArm"] + 0.1 - breath, 0.2)
-	leftleg.rotation = lerp(leftleg.rotation, initial_rotations["leftleg"], 0.2)
-	rightLeg.rotation = lerp(rightLeg.rotation, initial_rotations["rightLeg"], 0.2)
+	# Play idle animation
+	animator.animate_idle()
 
 func _animate_legs():
-	# Calculate leg and arm swing based on sine wave
-	var swing = sin(animation_time * walk_speed) * leg_swing_amount
-	var arm_swing = sin(animation_time * walk_speed) * arm_swing_amount
-	
-	# Apply rotations with smooth interpolation
-	# Use initial rotations as the base
-	leftleg.rotation = lerp(leftleg.rotation, initial_rotations["leftleg"] - swing, 0.2)
-	rightLeg.rotation = lerp(rightLeg.rotation, initial_rotations["rightLeg"] + swing, 0.2)
-	
-	# Arms swing opposite to legs for natural walking
-	leftArm.rotation = lerp(leftArm.rotation, initial_rotations["leftArm"] + arm_swing, 0.2)
-	rightArm.rotation = lerp(rightArm.rotation, initial_rotations["rightArm"] - arm_swing, 0.2)
-	
-	# Add slight torso movement
-	torso.rotation = lerp(torso.rotation, initial_rotations["torso"] + sin(animation_time * walk_speed * 2) * 0.05, 0.1)
+	# Play walk animation
+	animator.animate_walk()
+
+func _animate_jump():
+	# Play jump animation
+	animator.animate_jump(velocity.y, jump_force)
