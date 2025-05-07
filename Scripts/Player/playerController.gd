@@ -9,9 +9,15 @@ extends CharacterBody2D
 @onready var head = $Head
 @onready var gun_sprite = $Head/HeadSprite
 @onready var crosshair = $Crosshair
+# Reference Audio
+@onready var playerJumpAudio = $Jump
+@onready var playerSchootAudio = $Shoot
+@onready var playerWalkAudio = $Walk
 
 # Animation system
 var animator = CharacterAnimator.new()
+# Bullet 
+var bulletPath = preload("res://Scenes/Bulet/bulet.tscn")
 
 # Movement variables
 @export var character_scale_factor: float = 1.0
@@ -55,11 +61,23 @@ func _physics_process(delta):
 	
 	# Move character based on current velocity
 	move_and_slide()
+	
+	if Input.is_action_just_pressed("shoot"):
+		fire()
+	
 
 func _player_input():
 	# Get horizontal input
 	x_input = Input.get_axis("moveLeft", "moveRight")
 	
+	if abs(x_input) > 0 and is_on_floor():
+		if not playerWalkAudio.playing:
+			playerWalkAudio.play()
+	else:
+		# Stop the sound if we're not moving or not on floor
+		if playerWalkAudio.playing:
+			playerWalkAudio.stop()
+		
 	# Update body facing direction based on input - immediate response
 	if x_input < 0:
 		facing_right = false
@@ -67,11 +85,14 @@ func _player_input():
 	elif x_input > 0:
 		facing_right = true
 		_flip_body(true)
+		
+	
 
 func _handle_jump():
 	# Handle jumping - called every frame
-	if is_on_floor() and Input.is_action_just_pressed("ui_accept"):
+	if is_on_floor() and Input.is_action_just_pressed("jump"):
 		velocity.y = -jump_force
+		playerJumpAudio.play()
 
 func aim(mouse_position):
 	# Determine if mouse is on the right or left side of player
@@ -95,6 +116,21 @@ func aim(mouse_position):
 	# Update crosshair position
 	if crosshair:
 		crosshair.global_position = mouse_position
+		
+
+func fire():
+	var bullet = bulletPath.instantiate()
+	 # Get the mouse position in global coordinates
+	var mouse_pos = get_global_mouse_position()
+	
+	playerSchootAudio.play()
+	
+	# Calculate direction from fire location to mouse position
+	var direction = (mouse_pos - $Head/FireLocation.global_position).normalized()
+	
+	bullet.positionB = $Head/FireLocation.global_position
+	bullet.directionB = direction  # Pass the direction vector
+	get_parent().add_child(bullet)
 
 func _flip_body(is_right):
 	# Handle body flipping

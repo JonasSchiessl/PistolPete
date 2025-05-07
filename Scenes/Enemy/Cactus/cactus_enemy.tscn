@@ -1,0 +1,54 @@
+[gd_scene load_steps=5 format=3 uid="uid://c2ixvc8n1xffu"]
+
+[ext_resource type="Texture2D" uid="uid://cghennik7xmtu" path="res://Assets/Sprites/Enemy/Cactus/Cactus enemy-Sheet.png" id="1_rt6e4"]
+[ext_resource type="Script" uid="uid://tu4701bv3oxn" path="res://Scripts/healthComponent.gd" id="2_goyyg"]
+[ext_resource type="Script" uid="uid://dfrkp8w8ngnc1" path="res://Scenes/hitboxComponent.gd" id="3_67brj"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_67brj"]
+radius = 12.0
+height = 56.0
+
+[node name="CactusEnemy" type="CharacterBody2D"]
+collision_layer = 4
+collision_mask = 11
+
+[node name="Body" type="Sprite2D" parent="."]
+texture = ExtResource("1_rt6e4")
+region_enabled = true
+region_rect = Rect2(0, 0, 64, 64)
+
+[node name="ArmL" type="Sprite2D" parent="."]
+texture = ExtResource("1_rt6e4")
+region_enabled = true
+region_rect = Rect2(256, 0, 64, 64)
+
+[node name="ArmR" type="Sprite2D" parent="."]
+texture = ExtResource("1_rt6e4")
+region_enabled = true
+region_rect = Rect2(192, 0, 64, 64)
+
+[node name="LegL" type="Sprite2D" parent="."]
+texture = ExtResource("1_rt6e4")
+region_enabled = true
+region_rect = Rect2(64, 0, 64, 64)
+
+[node name="LegR" type="Sprite2D" parent="."]
+texture = ExtResource("1_rt6e4")
+region_enabled = true
+region_rect = Rect2(128, 0, 64, 64)
+
+[node name="HealthComponent" type="Node2D" parent="."]
+scale = Vector2(2, 2)
+script = ExtResource("2_goyyg")
+
+[node name="Area2D" type="Area2D" parent="." node_paths=PackedStringArray("healthComponent")]
+script = ExtResource("3_67brj")
+healthComponent = NodePath("../HealthComponent")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, 2)
+shape = SubResource("CapsuleShape2D_67brj")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="."]
+position = Vector2(0, 2)
+shape = SubResource("CapsuleShape2D_67brj")

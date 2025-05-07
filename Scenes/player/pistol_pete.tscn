@@ -1,15 +1,20 @@
-[gd_scene load_steps=6 format=3 uid="uid://cp4bfxvlst88j"]
+[gd_scene load_steps=9 format=3 uid="uid://cp4bfxvlst88j"]
 
 [ext_resource type="Texture2D" uid="uid://5bcceiishpo3" path="res://Assets/Sprites/Player/Gunhead-Sheet.png" id="1_f47d7"]
 [ext_resource type="Script" uid="uid://cs6d2jm71ciur" path="res://Scripts/Player/playerController.gd" id="1_kpmyg"]
 [ext_resource type="Texture2D" uid="uid://dd6tfl0f1bwo0" path="res://Assets/UI/Crosshair/Crosshair.png" id="3_io1a1"]
 [ext_resource type="Script" uid="uid://b8xw6264f7lh0" path="res://Scripts/Player/fsmPlayer.gd" id="4_j756e"]
+[ext_resource type="AudioStream" uid="uid://dqk87vkk4cs78" path="res://Assets/Sounds/player/jump.wav" id="5_fxseu"]
+[ext_resource type="AudioStream" uid="uid://bcy402e0k0ci3" path="res://Assets/Sounds/player/shoot.wav" id="6_yd3tk"]
+[ext_resource type="AudioStream" uid="uid://cohkfcm5bdihd" path="res://Assets/Sounds/NA_Character Footsteps (Dirt & Grass) - Pack 1/Hard Walk/Dirt/DIRT - Hard Walk 1.wav" id="7_h5qpe"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_io1a1"]
 height = 52.0
 
 [node name="PistolPete" type="CharacterBody2D"]
 scale = Vector2(2, 2)
+collision_layer = 2
+collision_mask = 15
 script = ExtResource("1_kpmyg")
 
 [node name="Body" type="Sprite2D" parent="."]
@@ -60,10 +65,8 @@ texture = ExtResource("1_f47d7")
 region_enabled = true
 region_rect = Rect2(0, 320, 64, 64)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
-position = Vector2(0, 5)
-shape = SubResource("CapsuleShape2D_io1a1")
+[node name="FireLocation" type="Node2D" parent="Head"]
+position = Vector2(28, -9.5)
 
 [node name="Camera2D" type="Camera2D" parent="."]
 offset = Vector2(0, -100)
@@ -71,5 +74,18 @@ offset = Vector2(0, -100)
 [node name="Crosshair" type="Sprite2D" parent="."]
 texture = ExtResource("3_io1a1")
 
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 5)
+shape = SubResource("CapsuleShape2D_io1a1")
+
 [node name="StateMachine" type="Node2D" parent="."]
 script = ExtResource("4_j756e")
+
+[node name="Jump" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_fxseu")
+
+[node name="Shoot" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("6_yd3tk")
+
+[node name="Walk" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("7_h5qpe")
