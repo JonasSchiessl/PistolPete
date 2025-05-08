@@ -9,6 +9,7 @@ extends CharacterBody2D
 @onready var head = $Head
 @onready var gun_sprite = $Head/HeadSprite
 @onready var crosshair = $Crosshair
+
 # Reference Audio
 @onready var playerJumpAudio = $Jump
 @onready var playerSchootAudio = $Shoot
