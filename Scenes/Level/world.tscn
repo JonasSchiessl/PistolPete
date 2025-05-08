@@ -1,6 +1,6 @@
 [gd_scene load_steps=10 format=4 uid="uid://b8rsiqt3m36ay"]
 
-[ext_resource type="PackedScene" uid="uid://cp4bfxvlst88j" path="res://Scenes/player/pistol_pete.tscn" id="1_prd13"]
+[ext_resource type="PackedScene" uid="uid://cp4bfxvlst88j" path="res://Scenes/Player/pistol_pete.tscn" id="1_prd13"]
 [ext_resource type="Texture2D" uid="uid://c506jkqf33x82" path="res://Assets/Tilesets/Platformer - desert/Background/BG-sky.png" id="3_oxgu8"]
 [ext_resource type="Texture2D" uid="uid://dl2wd0jjgw2x" path="res://Assets/Tilesets/Platformer - desert/Background/BG-mountains.png" id="4_778ob"]
 [ext_resource type="Texture2D" uid="uid://wympfov6fmcl" path="res://Assets/Tilesets/Platformer - desert/Tileset/00Atlas.png" id="4_xs3yl"]
