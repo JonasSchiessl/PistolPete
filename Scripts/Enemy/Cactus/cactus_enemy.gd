@@ -30,10 +30,8 @@ var last_damage_time: float = 0.0  # Track when we last dealt damage
 func _ready():
 	# Add to enemy group for player detection
 	add_to_group("enemies")
-	
 	attack_area.collision_layer = 32   # Layer 6 (2^5)
 	attack_area.collision_mask = 16    # Layer 5 (2^4)
-	print("Set attack area to layer 6, mask includes layer 5")
 	
 	# Setup attack timer
 	if attack_timer:
@@ -139,7 +137,6 @@ func _flip_body(is_right):
 # New direct player damage checking function
 func _check_for_player_to_damage():
 	var overlapping_areas = attack_area.get_overlapping_areas()
-	print("Checking attack area - found ", overlapping_areas.size(), " areas")
 	
 	for area in overlapping_areas:
 		if area is Area2D and area.has_method("damage"):

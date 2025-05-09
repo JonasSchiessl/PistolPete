@@ -81,15 +81,15 @@ func animate_attack():
 		# First half of attack - wind up
 		if attack_phase < PI/2:
 			var wind_up = sin(attack_phase) * attack_arm_rotation
-			left_arm.rotation = lerp(left_arm.rotation, initial_rotations["left_arm"] - wind_up, 0.3)
-			right_arm.rotation = lerp(right_arm.rotation, initial_rotations["right_arm"] + wind_up, 0.3)
+			left_arm.rotation = lerp(left_arm.rotation, initial_rotations["left_arm"] + wind_up, 0.3)
+			right_arm.rotation = lerp(right_arm.rotation, initial_rotations["right_arm"] - wind_up, 0.3)
 			
 			# During wind-up, widen stance for stability
 			left_leg.rotation = lerp(left_leg.rotation, initial_rotations["left_leg"] - 0.1, 0.2)
 			right_leg.rotation = lerp(right_leg.rotation, initial_rotations["right_leg"] + 0.1, 0.2)
 		# Second half - swing forward
 		else:
-			var swing = sin(attack_phase) * attack_arm_rotation * 2
+			var swing = sin(attack_phase) * attack_arm_rotation * -0.8
 			left_arm.rotation = lerp(left_arm.rotation, initial_rotations["left_arm"] + swing, 0.5)
 			right_arm.rotation = lerp(right_arm.rotation, initial_rotations["right_arm"] - swing, 0.5)
 			
