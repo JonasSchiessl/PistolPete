@@ -7,6 +7,8 @@ extends CharacterBody2D
 @export var attack_damage: float = 5.0
 @export var knockback_force: float = 200.0
 @export var attack_rate: float = 1.0  # Time between damage applications (seconds)
+@export var enemy_scale: float = 1.0  # Add this scale export
+
 
 # References to body parts
 @onready var body = $Body
@@ -26,12 +28,14 @@ var can_attack: bool = true
 var is_attacking: bool = false
 var facing_right: bool = true
 var last_damage_time: float = 0.0  # Track when we last dealt damage
+var attack_cooldown_time: float = 0.0
 
 func _ready():
 	# Add to enemy group for player detection
 	add_to_group("enemies")
 	attack_area.collision_layer = 32   # Layer 6 (2^5)
 	attack_area.collision_mask = 16    # Layer 5 (2^4)
+	scale = Vector2(enemy_scale, enemy_scale)
 	
 	# Setup attack timer
 	if attack_timer:
@@ -62,6 +66,15 @@ func _physics_process(delta):
 	if animator:
 		animator.update(delta)
 	
+	
+	# Update attack cooldown if not able to attack
+	if !can_attack:
+		attack_cooldown_time += delta
+		if attack_cooldown_time >= attack_cooldown:
+			can_attack = true
+			attack_cooldown_time = 0.0
+			print("Cooldown complete - can attack again")
+	
 	# If attacking, check for player to damage
 	if is_attacking:
 		# Check for players in the attack area
@@ -85,16 +98,14 @@ func _follow(_delta, direction):
 
 func _start_attack():
 	if can_attack:
+		print("Starting attack")
 		is_attacking = true
 		can_attack = false
+		attack_cooldown_time = 0.0
 		
 		# Enable attack area
 		if attack_area:
 			attack_area.monitoring = true
-		
-		# Start attack timer
-		if attack_timer:
-			attack_timer.start()
 		
 		# Reset damage timing
 		last_damage_time = 0.0

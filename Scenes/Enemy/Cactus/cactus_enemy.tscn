@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://c2ixvc8n1xffu"]
+[gd_scene load_steps=11 format=3 uid="uid://c2ixvc8n1xffu"]
 
 [ext_resource type="Script" uid="uid://mtktyesyqu24" path="res://Scripts/Enemy/Cactus/cactus_enemy.gd" id="1_3fqo2"]
 [ext_resource type="Texture2D" uid="uid://cghennik7xmtu" path="res://Assets/Sprites/Enemy/Cactus/Cactus enemy-Sheet.png" id="1_rt6e4"]
@@ -6,6 +6,8 @@
 [ext_resource type="Script" uid="uid://dfrkp8w8ngnc1" path="res://Scripts/hitboxComponent.gd" id="3_67brj"]
 [ext_resource type="Script" uid="uid://chx5fesow2lul" path="res://Scripts/Enemy/Cactus/fsmCactus.gd" id="5_3fqo2"]
 [ext_resource type="Script" uid="uid://c0003wtiv7vax" path="res://Scripts/Enemy/Cactus/cactusAnimator.gd" id="6_qlm3w"]
+[ext_resource type="AudioStream" uid="uid://xoo0d7d3k0sg" path="res://Assets/Sounds/music/enemy/cactus/attack.wav" id="7_aun8n"]
+[ext_resource type="AudioStream" uid="uid://dbv7remjw8ok6" path="res://Assets/Sounds/NA_Character Footsteps (Dirt & Grass) - Pack 1/Walk/Dirt/DIRT - Walk 4.wav" id="8_vgopr"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_67brj"]
 radius = 12.0
@@ -17,9 +19,10 @@ height = 88.0
 
 [node name="CactusEnemy" type="CharacterBody2D"]
 collision_layer = 4
-collision_mask = 11
+collision_mask = 15
 script = ExtResource("1_3fqo2")
-attack_cooldown = 0.5
+move_speed = 300.0
+attack_cooldown = 1.0
 attack_damage = 1.0
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="."]
@@ -80,3 +83,9 @@ script = ExtResource("5_3fqo2")
 
 [node name="Animator" type="Node2D" parent="."]
 script = ExtResource("6_qlm3w")
+
+[node name="AttackAudio" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("7_aun8n")
+
+[node name="WalkAudio" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("8_vgopr")

@@ -11,8 +11,8 @@ config_version=5
 [application]
 
 config/name="PistolPete"
-config/version="0.1"
-run/main_scene="uid://b8rsiqt3m36ay"
+config/version="0.2"
+run/main_scene="uid://pe3edu1tc2qh"
 config/features=PackedStringArray("4.4", "GL Compatibility")
 config/icon="res://icon.svg"
 

@@ -2,6 +2,9 @@ extends Node
 
 class_name CactusAnimator
 
+@onready var AttackAudio = $"../AttackAudio"
+@onready var WalkAudio = $"../WalkAudio"
+
 # References to body parts
 var body
 var left_arm
@@ -62,6 +65,8 @@ func animate_walk():
 	var arm_swing = swing * arm_swing_amount
 	var leg_swing = swing * leg_swing_amount
 	
+	if not WalkAudio.playing:
+		WalkAudio.play()
 	# Apply rotations with smooth interpolation
 	left_arm.rotation = lerp(left_arm.rotation, initial_rotations["left_arm"] + arm_swing, 0.2)
 	right_arm.rotation = lerp(right_arm.rotation, initial_rotations["right_arm"] - arm_swing, 0.2)
@@ -77,6 +82,8 @@ func animate_walk():
 func animate_attack():
 	is_attacking = true
 	
+	
+		
 	if attack_phase < PI:
 		# First half of attack - wind up
 		if attack_phase < PI/2:
@@ -96,6 +103,10 @@ func animate_attack():
 			# During attack swing, lean forward slightly with legs
 			left_leg.rotation = lerp(left_leg.rotation, initial_rotations["left_leg"] - 0.15, 0.3)
 			right_leg.rotation = lerp(right_leg.rotation, initial_rotations["right_leg"] + 0.15, 0.3)
+			
+			if not AttackAudio.playing:
+				AttackAudio.pitch_scale = 0.25
+				AttackAudio.play()
 		
 		# Add aggressive body movement
 		body.rotation = lerp(body.rotation, initial_rotations["body"] + sin(attack_phase * 2) * 0.1, 0.2)

@@ -14,11 +14,17 @@ extends CharacterBody2D
 @onready var playerJumpAudio = $Jump
 @onready var playerSchootAudio = $Shoot
 @onready var playerWalkAudio = $Walk
+@onready var reloadSound = $ReloadSFX
 
 # Animation system
 var animator = CharacterAnimator.new()
-# Bullet 
+
+# Bullet System
 var bulletPath = preload("res://Scenes/Bulet/bulet.tscn")
+@export var weapon_data: WeaponData
+var current_ammo: int = 0
+var is_reloading: bool = false
+var reload_timer: float = 0.0
 
 # Movement variables
 @export var character_scale_factor: float = 1.0
@@ -30,6 +36,12 @@ var bulletPath = preload("res://Scenes/Bulet/bulet.tscn")
 var x_input: float = 0.0
 var facing_right: bool = true
 var mouse_on_right: bool = true
+
+signal ammo_changed(current, maximum)
+signal reload_started(reload_time)
+signal reload_progress(progress_percent)
+signal reload_finished
+
 
 func _ready():
 	# Apply uniform scale to avoid squishing
@@ -56,6 +68,15 @@ func _ready():
 	# Hide system cursor if using custom crosshair
 	if crosshair:
 		Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+		
+	if weapon_data:
+		current_ammo = weapon_data.max_ammo
+	else:
+		# Create default weapon data if none assigned
+		weapon_data = WeaponData.new()
+		current_ammo = weapon_data.max_ammo
+		
+	call_deferred("update_ammo_ui")
 
 func _physics_process(delta):
 	# Apply gravity
@@ -72,7 +93,19 @@ func _physics_process(delta):
 	
 	if Input.is_action_just_pressed("shoot"):
 		fire()
-	
+		
+	if is_reloading:
+			reload_timer += delta
+			var progress = (reload_timer / weapon_data.reload_time) * 100
+			emit_signal("reload_progress", progress)
+			
+			if reload_timer >= weapon_data.reload_time:
+				# Reload complete
+				current_ammo = weapon_data.max_ammo
+				is_reloading = false
+				emit_signal("reload_finished")
+				emit_signal("ammo_changed", current_ammo, weapon_data.max_ammo)
+				print("Reload complete. Ammo: ", current_ammo)
 
 func _player_input():
 	# Get horizontal input
@@ -93,8 +126,12 @@ func _player_input():
 	elif x_input > 0:
 		facing_right = true
 		_flip_body(true)
-		
-	
+
+func disable_input():
+	set_physics_process(false)
+	# Hide crosshair if present
+	if crosshair:
+		crosshair.visible = false
 
 func _handle_jump():
 	# Handle jumping - called every frame
@@ -124,21 +161,64 @@ func aim(mouse_position):
 	# Update crosshair position
 	if crosshair:
 		crosshair.global_position = mouse_position
-		
 
 func fire():
-	var bullet = bulletPath.instantiate()
-	 # Get the mouse position in global coordinates
-	var mouse_pos = get_global_mouse_position()
+	# Check if currently reloading
+	if is_reloading:
+		return
 	
+	# If empty, start reloading
+	if current_ammo <= 0:
+		start_reload()
+		return
+	
+	# We have ammo and can fire
+	current_ammo -= 1
+	update_ammo_ui()
+	
+	# Get bullet scene from weapon data
+	var bullet_scene = weapon_data.bullet_scene if weapon_data.bullet_scene else bulletPath
+	
+	# Create bullet
+	var bullet = bullet_scene.instantiate()
+	var mouse_pos = get_global_mouse_position()
 	playerSchootAudio.play()
 	
-	# Calculate direction from fire location to mouse position
-	var direction = (mouse_pos - $Head/FireLocation.global_position).normalized()
-	
+	# Set bullet properties from weapon data
 	bullet.positionB = $Head/FireLocation.global_position
-	bullet.directionB = direction  # Pass the direction vector
+	bullet.directionB = (mouse_pos - $Head/FireLocation.global_position).normalized()
+	
+	# Pass weapon stats to bullet
+	if "bullet_damage" in bullet:
+		bullet.bullet_damage = weapon_data.bullet_damage
+	if "speed" in bullet:
+		bullet.speed = weapon_data.bullet_speed
+	if "lifetime" in bullet:
+		bullet.lifetime = weapon_data.bullet_lifetime
+	if "knockback_force" in bullet:
+		bullet.knockback_force = weapon_data.bullet_knockback
+	
 	get_parent().add_child(bullet)
+	
+	# Auto-reload when empty
+	if current_ammo <= 0:
+		start_reload()
+
+func start_reload():
+	if is_reloading or current_ammo == weapon_data.max_ammo:
+		return
+		
+	print("Reloading...")
+	is_reloading = true
+	reload_timer = 0.0
+	emit_signal("reload_started", weapon_data.reload_time)
+	
+	# Play reload sound
+	if has_node("ReloadSFX"):
+		$ReloadSFX.play()
+
+func update_ammo_ui():
+	emit_signal("ammo_changed", current_ammo, weapon_data.max_ammo)
 
 func _flip_body(is_right):
 	# Handle body flipping

@@ -3,16 +3,18 @@ class_name HealthComponent
 
 @export var maxHealth := 10
 var health : float
+signal entity_died(entity) 
+signal health_changed(new_health)
 
 func _ready() -> void:
 	health = maxHealth
+	print("Initial health: ", health, " / ", maxHealth)
+	add_to_group("health_component")
 
 func damage(attack: Attack):
-	print("Health before: ", health)
 	health -= attack.attackDamage
 	
-	print("Damage received: ", attack.attackDamage)
-	print("Health after: ", health)
+	emit_signal("health_changed", health)
+	
 	if health <= 0:
-		print("Health depleted, freeing parent")
-		get_parent().queue_free()
+		emit_signal("entity_died", get_parent())

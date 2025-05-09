@@ -17,8 +17,8 @@ func run_state(delta):
 		var distance_to_player = parent.global_position.distance_to(player.global_position)
 		var direction_to_player = (player.global_position - parent.global_position).normalized()
 		
-		# Determine state based on distance to player
-		if distance_to_player <= attack_radius:
+		# Determine state based on distance to player and ability to attack
+		if distance_to_player <= attack_radius and parent.can_attack:
 			_set_state(STATES.ATTACK)
 		else:
 			_set_state(STATES.MOVE)
@@ -31,10 +31,11 @@ func run_state(delta):
 				parent._attack(delta, direction_to_player)
 
 func _set_state(new_state: int):
-	# Don't interrupt attack animation
+	# Don't interrupt attack animation during the actual swing
 	if parent.is_attacking and state == STATES.ATTACK and new_state != STATES.ATTACK:
-		return
-		
+		if parent.animator and parent.animator.attack_phase < PI * 0.7:
+			return
+			
 	if state == new_state:
 		return
 		
