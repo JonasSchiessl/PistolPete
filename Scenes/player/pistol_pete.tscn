@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://cp4bfxvlst88j"]
+[gd_scene load_steps=12 format=3 uid="uid://cp4bfxvlst88j"]
 
 [ext_resource type="Texture2D" uid="uid://5bcceiishpo3" path="res://Assets/Sprites/Player/Gunhead-Sheet.png" id="1_f47d7"]
 [ext_resource type="Script" uid="uid://cs6d2jm71ciur" path="res://Scripts/Player/playerController.gd" id="1_kpmyg"]
@@ -7,9 +7,15 @@
 [ext_resource type="AudioStream" uid="uid://dqk87vkk4cs78" path="res://Assets/Sounds/player/jump.wav" id="5_fxseu"]
 [ext_resource type="AudioStream" uid="uid://bcy402e0k0ci3" path="res://Assets/Sounds/player/shoot.wav" id="6_yd3tk"]
 [ext_resource type="AudioStream" uid="uid://cohkfcm5bdihd" path="res://Assets/Sounds/NA_Character Footsteps (Dirt & Grass) - Pack 1/Hard Walk/Dirt/DIRT - Hard Walk 1.wav" id="7_h5qpe"]
+[ext_resource type="Script" uid="uid://tu4701bv3oxn" path="res://Scripts/healthComponent.gd" id="8_8t6m2"]
+[ext_resource type="Script" uid="uid://dfrkp8w8ngnc1" path="res://Scripts/hitboxComponent.gd" id="9_r6w3u"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_io1a1"]
 height = 52.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_rl5ku"]
+radius = 13.0
+height = 50.0
 
 [node name="PistolPete" type="CharacterBody2D"]
 scale = Vector2(2, 2)
@@ -89,3 +95,17 @@ stream = ExtResource("6_yd3tk")
 
 [node name="Walk" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("7_h5qpe")
+
+[node name="HealthComponent" type="Node2D" parent="."]
+script = ExtResource("8_8t6m2")
+metadata/_custom_type_script = "uid://tu4701bv3oxn"
+
+[node name="HitboxComponent" type="Area2D" parent="." node_paths=PackedStringArray("healthComponent")]
+collision_layer = 16
+collision_mask = 32
+script = ExtResource("9_r6w3u")
+healthComponent = NodePath("../HealthComponent")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxComponent"]
+position = Vector2(0, 7)
+shape = SubResource("CapsuleShape2D_rl5ku")

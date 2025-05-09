@@ -34,6 +34,7 @@ var mouse_on_right: bool = true
 func _ready():
 	# Apply uniform scale to avoid squishing
 	scale = Vector2(character_scale_factor, character_scale_factor)
+	add_to_group("player")
 	
 	# Initialize animator with body parts
 	var body_parts = {
@@ -45,6 +46,12 @@ func _ready():
 		"head": head
 	}
 	animator.initialize(body_parts)
+	
+	if $HitboxComponent:
+		# Set collision to match what you specified
+		$HitboxComponent.collision_layer = 16   # Layer 5 (2^4)
+		$HitboxComponent.collision_mask = 32    # Layer 6 (2^5)
+		print("Set player hitbox to layer 5, mask includes layer 6")
 	
 	# Hide system cursor if using custom crosshair
 	if crosshair:
