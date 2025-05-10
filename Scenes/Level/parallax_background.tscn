@@ -1,0 +1,34 @@
+[gd_scene load_steps=4 format=3 uid="uid://6txun2iursb5"]
+
+[ext_resource type="Texture2D" uid="uid://c506jkqf33x82" path="res://Assets/Tilesets/Platformer - desert/Background/BG-sky.png" id="1_bserv"]
+[ext_resource type="Texture2D" uid="uid://dl2wd0jjgw2x" path="res://Assets/Tilesets/Platformer - desert/Background/BG-mountains.png" id="2_ur0gr"]
+[ext_resource type="Texture2D" uid="uid://cd8lomwt0b6g1" path="res://Assets/Tilesets/Platformer - desert/Background/BG-ruins.png" id="3_fn2do"]
+
+[node name="ParallaxBackground" type="ParallaxBackground"]
+offset = Vector2(0, -500)
+scale = Vector2(5, 5)
+transform = Transform2D(5, 0, 0, 5, 0, -500)
+
+[node name="Sky" type="ParallaxLayer" parent="."]
+motion_scale = Vector2(0, 0)
+motion_mirroring = Vector2(256, 0)
+
+[node name="Sky" type="Sprite2D" parent="Sky"]
+texture = ExtResource("1_bserv")
+centered = false
+
+[node name="Mountains" type="ParallaxLayer" parent="."]
+motion_scale = Vector2(0.01, 0.01)
+motion_mirroring = Vector2(256, 0)
+
+[node name="Mountains" type="Sprite2D" parent="Mountains"]
+texture = ExtResource("2_ur0gr")
+centered = false
+
+[node name="Ruins" type="ParallaxLayer" parent="."]
+motion_scale = Vector2(0.02, 0.02)
+motion_mirroring = Vector2(256, 0)
+
+[node name="Ruins" type="Sprite2D" parent="Ruins"]
+texture = ExtResource("3_fn2do")
+centered = false

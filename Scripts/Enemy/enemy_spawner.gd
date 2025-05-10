@@ -356,7 +356,7 @@ func setup_wave_ui():
 	# Configure count label
 	count_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	count_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	count_label.add_theme_color_override("font_color", Color(1, 0.5, 0.5))
+	count_label.add_theme_color_override("font_color", Color(1, 1, 1))
 	
 	# Position
 	count_label.size = Vector2(200, 50)
@@ -406,11 +406,7 @@ func update_enemy_count():
 			count_label.text = "Next wave in: " + str(int(spawn_interval - spawn_timer))
 			
 		# Color coding based on number of enemies
-		if current_enemies > 10:
-			count_label.add_theme_color_override("font_color", Color(1, 0, 0)) # Red
-		elif current_enemies > 5:
-			count_label.add_theme_color_override("font_color", Color(1, 0.5, 0)) # Orange
-		elif current_enemies > 0:
-			count_label.add_theme_color_override("font_color", Color(1, 0.8, 0)) # Yellow
+		if current_enemies > 0:
+			count_label.add_theme_color_override("font_color", Color(0, 0, 0)) # Black
 		else:
-			count_label.add_theme_color_override("font_color", Color(0, 1, 0)) # Green
+			count_label.add_theme_color_override("font_color", Color(0, 0.5, 0, 1)) # Green
