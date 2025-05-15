@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://ds6616tmt86k"]
+
+[ext_resource type="Script" uid="uid://howiavy0ugiq" path="res://Scripts/Levels/fade_manager.gd" id="1_apt1x"]
+[ext_resource type="PackedScene" uid="uid://dg5cst5afuuw7" path="res://Scenes/Level/Components/screen_fade.tscn" id="2_sr8wa"]
+
+[node name="FadeManager" type="CanvasLayer"]
+script = ExtResource("1_apt1x")
+
+[node name="ScreenFade" parent="." instance=ExtResource("2_sr8wa")]
+mouse_filter = 2

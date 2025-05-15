@@ -1,0 +1,47 @@
+[gd_scene load_steps=7 format=3 uid="uid://b8rsiqt3m36ay"]
+
+[ext_resource type="Script" uid="uid://bi7p5mynq8qpg" path="res://Scripts/Levels/Level2/gameManager.gd" id="1_6plf2"]
+[ext_resource type="PackedScene" uid="uid://6txun2iursb5" path="res://Scenes/Level/Components/parallax_background.tscn" id="2_crgiv"]
+[ext_resource type="PackedScene" uid="uid://1a5qk0r0f6op" path="res://Scenes/Level/Components/enviorment.tscn" id="3_2325y"]
+[ext_resource type="PackedScene" uid="uid://cp4bfxvlst88j" path="res://Scenes/Player/pistol_pete.tscn" id="4_q27gm"]
+[ext_resource type="AudioStream" uid="uid://dk7l228nqlov6" path="res://Assets/Sounds/music/battle-time-178551.mp3" id="5_c376u"]
+[ext_resource type="PackedScene" uid="uid://dbfagfcmksa5j" path="res://Scenes/Enemy/EnemySpawner.tscn" id="6_f85pk"]
+
+[node name="World" type="Node2D"]
+script = ExtResource("1_6plf2")
+
+[node name="ParallaxBackground" parent="." instance=ExtResource("2_crgiv")]
+
+[node name="Enviorment" parent="." instance=ExtResource("3_2325y")]
+
+[node name="PistolPete" parent="." instance=ExtResource("4_q27gm")]
+position = Vector2(754, 470)
+scale = Vector2(3, 3)
+character_scale_factor = 2.0
+
+[node name="Music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_c376u")
+volume_db = -10.0
+autoplay = true
+parameters/looping = true
+
+[node name="Marker2D" parent="." instance=ExtResource("6_f85pk")]
+position = Vector2(-6928, 363)
+
+[node name="Marker2D2" parent="." instance=ExtResource("6_f85pk")]
+position = Vector2(-5409, 371)
+
+[node name="Marker2D4" parent="." instance=ExtResource("6_f85pk")]
+position = Vector2(-2011, 324)
+
+[node name="Marker2D5" parent="." instance=ExtResource("6_f85pk")]
+position = Vector2(-162, 314)
+
+[node name="Marker2D6" parent="." instance=ExtResource("6_f85pk")]
+position = Vector2(2091, 296)
+
+[node name="Marker2D7" parent="." instance=ExtResource("6_f85pk")]
+position = Vector2(4017, 287)
+
+[node name="Marker2D3" parent="." instance=ExtResource("6_f85pk")]
+position = Vector2(-3703, 354)

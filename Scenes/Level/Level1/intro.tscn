@@ -1,0 +1,90 @@
+[gd_scene load_steps=13 format=3 uid="uid://c8iif2cb36rso"]
+
+[ext_resource type="Script" uid="uid://dlxv2m5veumid" path="res://Scripts/Levels/Level1/IntroManager.gd" id="1_xg0vh"]
+[ext_resource type="PackedScene" uid="uid://6txun2iursb5" path="res://Scenes/Level/Components/parallax_background.tscn" id="2_a5vd8"]
+[ext_resource type="Texture2D" uid="uid://btw4qfevw1s6s" path="res://Assets/Sprites/Props/House.png" id="3_jf1rg"]
+[ext_resource type="Texture2D" uid="uid://b84vnx3kmsosb" path="res://Assets/Tilesets/Platformer - desert/props/tree04.png" id="4_h85o6"]
+[ext_resource type="PackedScene" uid="uid://1a5qk0r0f6op" path="res://Scenes/Level/Components/enviorment.tscn" id="5_xcawo"]
+[ext_resource type="PackedScene" uid="uid://cp4bfxvlst88j" path="res://Scenes/Player/pistol_pete.tscn" id="6_vjhfk"]
+[ext_resource type="PackedScene" uid="uid://tqwodtllhl6s" path="res://Scenes/Npc/npc.tscn" id="7_56dnb"]
+[ext_resource type="Texture2D" uid="uid://ceooh6tvoinr2" path="res://Assets/Sprites/NPC/Doctor.png" id="8_un5ox"]
+[ext_resource type="Texture2D" uid="uid://beatqer341wrj" path="res://Assets/Sprites/NPC/Sheriff.png" id="9_01knd"]
+[ext_resource type="AudioStream" uid="uid://bn0uvq46x02ow" path="res://Assets/Sounds/music/pixel-perfect-112527.mp3" id="10_m8pdl"]
+[ext_resource type="PackedScene" uid="uid://c78q0pvfj05dt" path="res://Scenes/Npc/horse.tscn" id="11_a5vd8"]
+[ext_resource type="PackedScene" uid="uid://dg5cst5afuuw7" path="res://Scenes/Level/Components/screen_fade.tscn" id="12_jf1rg"]
+
+[node name="Intro" type="Node2D"]
+script = ExtResource("1_xg0vh")
+
+[node name="ParallaxBackground" parent="." instance=ExtResource("2_a5vd8")]
+
+[node name="Props" type="Node2D" parent="."]
+
+[node name="House" type="Sprite2D" parent="Props"]
+position = Vector2(570, 392)
+scale = Vector2(3, 3)
+texture = ExtResource("3_jf1rg")
+
+[node name="House2" type="Sprite2D" parent="Props"]
+position = Vector2(-1841, 405)
+scale = Vector2(3, 3)
+texture = ExtResource("3_jf1rg")
+
+[node name="Tree04" type="Sprite2D" parent="Props"]
+position = Vector2(-763, 297)
+scale = Vector2(8, 8)
+texture = ExtResource("4_h85o6")
+
+[node name="House3" type="Sprite2D" parent="Props"]
+position = Vector2(-4217, 390)
+scale = Vector2(3, 3)
+texture = ExtResource("3_jf1rg")
+
+[node name="Tree06" type="Sprite2D" parent="Props"]
+position = Vector2(-3138, 302)
+scale = Vector2(8, 8)
+texture = ExtResource("4_h85o6")
+
+[node name="House4" type="Sprite2D" parent="Props"]
+position = Vector2(-6476, 392)
+scale = Vector2(3, 3)
+texture = ExtResource("3_jf1rg")
+
+[node name="Tree07" type="Sprite2D" parent="Props"]
+position = Vector2(-5399, 302)
+scale = Vector2(8, 8)
+texture = ExtResource("4_h85o6")
+
+[node name="Tree05" type="Sprite2D" parent="Props"]
+position = Vector2(2482, 281)
+scale = Vector2(8, 8)
+texture = ExtResource("4_h85o6")
+
+[node name="Enviorment" parent="." instance=ExtResource("5_xcawo")]
+
+[node name="PistolPete" parent="." instance=ExtResource("6_vjhfk")]
+position = Vector2(-6834, 500)
+character_scale_factor = 2.0
+
+[node name="NPC" parent="." instance=ExtResource("7_56dnb")]
+position = Vector2(-6384, 508)
+scale = Vector2(2, 2)
+character_texture = ExtResource("8_un5ox")
+dialogue_file_path = "res://Dialogue/Doctor/Dialogue1.json"
+
+[node name="NPC2" parent="." instance=ExtResource("7_56dnb")]
+position = Vector2(-2072, 501)
+scale = Vector2(2, 2)
+character_texture = ExtResource("9_01knd")
+dialogue_file_path = "res://Dialogue/Sherrif/Dialogue.json"
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("10_m8pdl")
+volume_db = -30.163
+autoplay = true
+parameters/looping = true
+
+[node name="Horse" parent="." instance=ExtResource("11_a5vd8")]
+position = Vector2(162, 418)
+
+[node name="ScreenFade" parent="." instance=ExtResource("12_jf1rg")]

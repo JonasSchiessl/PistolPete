@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://ce8bgtqrvsevk"]
 
-[ext_resource type="Script" uid="uid://cxhp45s0nhdyt" path="res://Scripts/Player/ui.gd" id="1_msgi4"]
+[ext_resource type="Script" uid="uid://cxhp45s0nhdyt" path="res://Scripts/Player/UI/ui.gd" id="1_msgi4"]
 [ext_resource type="FontFile" uid="uid://c503fv36sdwt" path="res://Assets/UI/fonts/Ancient Modern Tales.woff" id="2_8ujbi"]
 [ext_resource type="Texture2D" uid="uid://b4pp71g52wi5y" path="res://Assets/Tilesets/Platformer - desert/Tileset/tileMain5.png" id="3_qdmn3"]
 

@@ -5,8 +5,8 @@ class_name EnemySpawner
 @export var enemy_scene: PackedScene
 @export var spawn_interval: float = 3.0
 @export var initial_count: int = 1
-@export var max_enemies: int = 15
-@export var max_per_wave: int = 5
+@export var max_enemies: int = 1000
+@export var max_per_wave: int = 1000
 @export var difficulty_scaling: float = 0.8
 @export var enemy_scale: float = 2
 
@@ -38,6 +38,8 @@ func _ready():
 	
 	# Find all existing enemies in the scene
 	call_deferred("track_existing_enemies")
+	
+	process_mode = Node.PROCESS_MODE_ALWAYS
 
 func collect_spawn_points():
 	# Get all nodes in the "enemy_spawn_points" group
@@ -78,6 +80,7 @@ func track_existing_enemies():
 	print("Total tracked enemies: ", current_enemies)
 
 func _process(delta):
+	print("EnemySpawner is processing...")
 	# Only count down timer if no wave is in progress
 	if !wave_in_progress:
 		# Update spawn timer
@@ -305,7 +308,6 @@ func wave_complete():
 	spawn_timer = 0.0
 	
 	print("Wave " + str(current_wave) + " complete!")
-
 # UI related functions stay the same
 func load_custom_font():
 	# Try to load the font resource

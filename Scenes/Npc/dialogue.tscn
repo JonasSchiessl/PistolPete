@@ -1,0 +1,59 @@
+[gd_scene load_steps=6 format=3 uid="uid://dax7k16fiv81n"]
+
+[ext_resource type="FontFile" uid="uid://c503fv36sdwt" path="res://Assets/UI/fonts/Ancient Modern Tales.woff" id="1_613ir"]
+[ext_resource type="Script" uid="uid://hdko4j3nvm28" path="res://Scripts/NPC/dialoguePlayer.gd" id="1_f6y16"]
+[ext_resource type="StyleBox" uid="uid://bh2arbois87h5" path="res://Assets/UI/UI.tres" id="2_qn3pr"]
+[ext_resource type="PackedScene" uid="uid://dg7ivnciyxqda" path="res://Scenes/Npc/key_input.tscn" id="4_nfyqd"]
+[ext_resource type="AudioStream" uid="uid://bugjditg3ws7r" path="res://Assets/Sounds/player/click (1).wav" id="5_dk71x"]
+
+[node name="Dialogue" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_f6y16")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 0
+offset_right = 217.0
+offset_bottom = 131.0
+theme_override_styles/panel = ExtResource("2_qn3pr")
+metadata/_edit_group_ = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 4
+
+[node name="Name" type="RichTextLabel" parent="Panel/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_fonts/normal_font = ExtResource("1_613ir")
+theme_override_font_sizes/normal_font_size = 28
+text = "Name: "
+fit_content = true
+scroll_active = false
+
+[node name="Text" type="RichTextLabel" parent="Panel/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_fonts/normal_font = ExtResource("1_613ir")
+theme_override_font_sizes/normal_font_size = 18
+text = "Chatting"
+fit_content = true
+scroll_active = false
+
+[node name="KeyInput" parent="Panel" instance=ExtResource("4_nfyqd")]
+layout_mode = 1
+offset_left = 197.0
+offset_top = 118.0
+offset_right = 197.0
+offset_bottom = 118.0
+KeyText = "E"
+
+[node name="Click" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_dk71x")

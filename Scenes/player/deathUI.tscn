@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://b2yly75m1ae1c"]
 
-[ext_resource type="Script" uid="uid://b4vbwmmip0a1d" path="res://Scripts/Player/deathUI.gd" id="1_fhhdp"]
+[ext_resource type="Script" uid="uid://b4vbwmmip0a1d" path="res://Scripts/Player/UI/deathUI.gd" id="1_fhhdp"]
 [ext_resource type="FontFile" uid="uid://c503fv36sdwt" path="res://Assets/UI/fonts/Ancient Modern Tales.woff" id="2_lg8mt"]
 [ext_resource type="AudioStream" uid="uid://d3xh4dnj3dx8o" path="res://Assets/Sounds/music/8-bit-game-over-sound-effect-331435.mp3" id="3_gp2j3"]
 

@@ -1,0 +1,235 @@
+[gd_scene load_steps=10 format=3 uid="uid://pe3edu1tc2qh"]
+
+[ext_resource type="FontFile" uid="uid://c503fv36sdwt" path="res://Assets/UI/fonts/Ancient Modern Tales.woff" id="1_2vbyt"]
+[ext_resource type="Script" uid="uid://bpg2c3koaied" path="res://Scripts/Levels/Menu/mainMenu.gd" id="1_i731y"]
+[ext_resource type="Texture2D" uid="uid://dra68mb63fs00" path="res://Assets/UI/Screenshot 2025-05-08 213759.png" id="1_sxurw"]
+[ext_resource type="AudioStream" uid="uid://pch56syrwut0" path="res://Assets/Sounds/music/imagination-188210.mp3" id="4_fynmc"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_i731y"]
+texture = ExtResource("1_sxurw")
+modulate_color = Color(0.774831, 0.636271, 0.390007, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sxurw"]
+bg_color = Color(0.931881, 0.877023, 0.765242, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.478431, 0.423529, 0.309804, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+shadow_size = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i731y"]
+bg_color = Color(0.0968431, 0.0737149, 0.0260295, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.788235, 0.686275, 0.47451, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+expand_margin_top = 4.0
+shadow_size = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fynmc"]
+bg_color = Color(0.789029, 0.687684, 0.474337, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.463254, 0.386731, 0.224472, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+shadow_size = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_eever"]
+content_margin_left = 10.0
+content_margin_top = 10.0
+content_margin_right = 10.0
+content_margin_bottom = 10.0
+bg_color = Color(0.931881, 0.877023, 0.765242, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.478431, 0.423529, 0.309804, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+script = ExtResource("1_i731y")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_i731y")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+custom_minimum_size = Vector2(400, 250)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -196.0
+offset_top = -141.0
+offset_right = 196.0
+offset_bottom = 63.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 20
+
+[node name="Button" type="Button" parent="VBoxContainer"]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("1_2vbyt")
+theme_override_font_sizes/font_size = 64
+theme_override_styles/hover = SubResource("StyleBoxFlat_sxurw")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_i731y")
+theme_override_styles/normal = SubResource("StyleBoxFlat_fynmc")
+action_mode = 0
+text = "Start Game"
+
+[node name="Credits" type="Button" parent="VBoxContainer"]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("1_2vbyt")
+theme_override_font_sizes/font_size = 64
+theme_override_styles/hover = SubResource("StyleBoxFlat_sxurw")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_i731y")
+theme_override_styles/normal = SubResource("StyleBoxFlat_fynmc")
+action_mode = 0
+text = "Credits"
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -161.5
+offset_top = 79.0
+offset_right = 161.5
+offset_bottom = 173.0
+grow_horizontal = 2
+theme_override_fonts/font = ExtResource("1_2vbyt")
+theme_override_font_sizes/font_size = 86
+text = "PistolPete"
+
+[node name="Credits" type="Panel" parent="."]
+custom_minimum_size = Vector2(1000, 620)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -500.0
+offset_top = -310.0
+offset_right = 500.0
+offset_bottom = 310.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_eever")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Credits"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 11.0
+offset_top = 11.0
+offset_right = -10.0
+offset_bottom = -8.0
+grow_horizontal = 2
+grow_vertical = 2
+focus_mode = 2
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/normal_font_size = 18
+text = "Sprites:
+ToffeeCraft: Farm Horse Free
+		https://toffeecraft.itch.io/farm-horse-free
+Jonas Schiessl: Other Assets
+
+TileSet:
+oisougabo: https://oisougabo.itch.io/free-platformer-16x16
+
+Fonts:
+Chequered Ink: Ancient Modern Tales
+		https://www.1001freefonts.com/designer-chequered-ink-fontlisting.php
+
+Music:
+Jonas Schiessl: Other SoundEffects
+nebula audio: Character Footsteps (Dirt & Grass) (80 sounds effects)
+		https://nebula-audio.itch.io/character-footsteps-rock-grass-pack-1
+Lesiakower: Battle Time
+	 https://pixabay.com/music/video-games-battle-time-178551/
+Lesiakower: 8-BIT GAME OVER Sound Effect
+		 https://pixabay.com/sound-effects/8-bit-game-over-sound-effect-331435/
+Syouki_Takahashi : Imagination 
+		https://pixabay.com/users/syouki_takahashi-3820204/
+freesound_community: Clean Revolver Reload
+		https://pixabay.com/sound-effects/clean-revolver-reload-6889/
+ Lesiakower: Pixel Perfect
+		https://pixabay.com/users/lesiakower-25701529/"
+selection_enabled = true
+
+[node name="Exit" type="Button" parent="Credits"]
+layout_mode = 2
+offset_left = 967.0
+offset_top = -13.0
+offset_right = 1057.0
+offset_bottom = 83.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.5, 0.5)
+size_flags_vertical = 4
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 64
+theme_override_styles/hover = SubResource("StyleBoxFlat_sxurw")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_i731y")
+theme_override_styles/normal = SubResource("StyleBoxFlat_fynmc")
+action_mode = 0
+text = "X"
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_fynmc")
+volume_db = 1.0
+autoplay = true
+parameters/looping = true
+
+[connection signal="pressed" from="VBoxContainer/Button" to="." method="_on_start_pressed"]
+[connection signal="pressed" from="VBoxContainer/Credits" to="." method="_on_credits_pressed"]
+[connection signal="pressed" from="Credits/Exit" to="." method="_on_exit_pressed"]

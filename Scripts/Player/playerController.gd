@@ -14,7 +14,8 @@ extends CharacterBody2D
 @onready var playerJumpAudio = $Jump
 @onready var playerSchootAudio = $Shoot
 @onready var playerWalkAudio = $Walk
-@onready var reloadSound = $ReloadSFX
+@onready var reloadSound = $Reload
+@onready var dashSound = $Dash
 
 # Animation system
 var animator = CharacterAnimator.new()
@@ -28,14 +29,24 @@ var reload_timer: float = 0.0
 
 # Movement variables
 @export var character_scale_factor: float = 1.0
-@export var move_speed: float = 200.0
-@export var jump_force: float = 400.0
-@export var gravity: float = 800.0
+@export var move_speed: float = 400.0
+@export var jump_force: float = 800.0
+@export var gravity: float = 1600.0
+@export var dash_speed: float = 1000.0
+@export var dash_duration: float = 0.2
+@export var dash_cooldown: float = 1.0
+
 
 # Input variables
 var x_input: float = 0.0
 var facing_right: bool = true
 var mouse_on_right: bool = true
+var is_dashing: bool = false
+var dash_timer: float = 0.0
+var dash_cooldown_timer: float = 0.0
+var dash_direction: Vector2 = Vector2.ZERO
+var final_velocity: Vector2 = Vector2.ZERO
+var has_dashed: bool = false
 
 signal ammo_changed(current, maximum)
 signal reload_started(reload_time)
@@ -44,6 +55,7 @@ signal reload_finished
 
 
 func _ready():
+	enable_input()
 	# Apply uniform scale to avoid squishing
 	scale = Vector2(character_scale_factor, character_scale_factor)
 	add_to_group("player")
@@ -79,17 +91,34 @@ func _ready():
 	call_deferred("update_ammo_ui")
 
 func _physics_process(delta):
+	final_velocity = velocity  # Start with normal velocity
+	
 	# Apply gravity
-	velocity.y += gravity * delta
+	if !is_dashing:
+		final_velocity.y += gravity * delta
 	
-	# Update animator's time
-	animator.update(delta)
+	# Dash logic
+	if is_dashing:
+		dash_timer -= delta
+		if dash_timer <= 0:
+			is_dashing = false
+			dash_cooldown_timer = dash_cooldown
+		else:
+			final_velocity = dash_direction * dash_speed  # Fully override during dash
+	else:
+		_player_input()  # Apply movement input
+		_handle_jump()
 	
-	# Check for jump input every frame
-	_handle_jump()
-	
-	# Move character based on current velocity
+	velocity = final_velocity
 	move_and_slide()
+	if is_on_floor():
+		has_dashed = false
+	
+	# Cooldown timer
+	if dash_cooldown_timer > 0.0:
+		dash_cooldown_timer -= delta
+	
+	animator.update(delta)
 	
 	if Input.is_action_just_pressed("shoot"):
 		fire()
@@ -110,6 +139,10 @@ func _physics_process(delta):
 func _player_input():
 	# Get horizontal input
 	x_input = Input.get_axis("moveLeft", "moveRight")
+	
+	if Input.is_action_just_pressed("dash") and !is_dashing and !has_dashed:
+		_start_dash()
+		has_dashed = true
 	
 	if abs(x_input) > 0 and is_on_floor():
 		if not playerWalkAudio.playing:
@@ -132,11 +165,15 @@ func disable_input():
 	# Hide crosshair if present
 	if crosshair:
 		crosshair.visible = false
+		
+func enable_input():
+	set_physics_process(true)
+	if crosshair:
+		crosshair.visible = true
 
 func _handle_jump():
-	# Handle jumping - called every frame
 	if is_on_floor() and Input.is_action_just_pressed("jump"):
-		velocity.y = -jump_force
+		final_velocity.y = -jump_force
 		playerJumpAudio.play()
 
 func aim(mouse_position):
@@ -214,8 +251,8 @@ func start_reload():
 	emit_signal("reload_started", weapon_data.reload_time)
 	
 	# Play reload sound
-	if has_node("ReloadSFX"):
-		$ReloadSFX.play()
+	if has_node("Reload"):
+		$Reload.play()
 
 func update_ammo_ui():
 	emit_signal("ammo_changed", current_ammo, weapon_data.max_ammo)
@@ -245,3 +282,16 @@ func _animate_legs():
 func _animate_jump():
 	# Play jump animation
 	animator.animate_jump(velocity.y, jump_force)
+
+func _start_dash():
+	is_dashing = true
+	dash_timer = dash_duration
+
+	var mouse_pos = get_global_mouse_position()
+	dash_direction = (mouse_pos - global_position).normalized()
+
+	# Preserve vertical velocity during dash
+	velocity.x = dash_direction.x * dash_speed
+	velocity.y = dash_direction.y * dash_speed + velocity.y  # additive Y if needed
+
+	dashSound.play()  # Optional sound

@@ -1,0 +1,44 @@
+[gd_scene load_steps=6 format=3 uid="uid://tqwodtllhl6s"]
+
+[ext_resource type="Script" uid="uid://bac65psbr8g0w" path="res://Scripts/NPC/npc.gd" id="1_r2kpr"]
+[ext_resource type="PackedScene" uid="uid://dax7k16fiv81n" path="res://Scenes/Npc/dialogue.tscn" id="3_o15aj"]
+[ext_resource type="PackedScene" uid="uid://dy2cyeo2gw66p" path="res://Scenes/Npc/intreraction_ui.tscn" id="3_rqf03"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_r2kpr"]
+radius = 94.3398
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_r2kpr"]
+
+[node name="NPC" type="CharacterBody2D"]
+collision_layer = 64
+script = ExtResource("1_r2kpr")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+
+[node name="ChatDetection" type="Area2D" parent="."]
+collision_layer = 64
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ChatDetection"]
+shape = SubResource("CircleShape2D_r2kpr")
+
+[node name="Dialogue" parent="." instance=ExtResource("3_o15aj")]
+offset_left = -115.0
+offset_top = -184.0
+offset_right = -75.0
+offset_bottom = -144.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 22)
+shape = SubResource("RectangleShape2D_r2kpr")
+
+[node name="IntreractionUI" parent="." instance=ExtResource("3_rqf03")]
+offset_left = -15.0
+offset_top = -72.0
+offset_right = -15.0
+offset_bottom = -72.0
+scale = Vector2(0.5, 0.5)
+
+[connection signal="body_entered" from="ChatDetection" to="." method="_on_chat_detection_body_entered"]
+[connection signal="body_exited" from="ChatDetection" to="." method="_on_chat_detection_body_exited"]
+[connection signal="dialogueFinished" from="Dialogue" to="." method="_on_dialogue_dialogue_finished"]
